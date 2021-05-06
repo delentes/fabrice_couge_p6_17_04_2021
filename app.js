@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const path = require('path');
+const bodyParser = require('body-parser')
 require('dotenv').config();
 
 const sauceRoutes = require('./routes/sauce');
@@ -23,7 +24,7 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use(express.json());
+app.use(bodyParser.json());
 
 app.use('/pictures', express.static(path.join(__dirname, 'pictures')));
 app.use('/api/sauce', sauceRoutes);

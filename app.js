@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use('/pictures', express.static(path.join(__dirname, 'pictures')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 

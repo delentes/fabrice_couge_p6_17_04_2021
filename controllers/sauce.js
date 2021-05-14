@@ -1,11 +1,16 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
+const xss = require('xss')
 
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
     delete req.body._id;
     const sauce = new Sauce({
         ...sauceObject,
+        name: xss(sauceObject.name),
+        manufacturer: xss(sauceObject.manufacturer),
+        description: xss(sauceObject.description),
+        mainPepper: xss(sauceObject.mainPepper),
         likes:0,
         dislikes:0,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,

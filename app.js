@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const path = require('path');
-const bodyParser = require('body-parser');
 const limiter = require('./middleware/rateLimit-config');
 require('dotenv').config();
 
@@ -26,7 +25,7 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/sauces', sauceRoutes);

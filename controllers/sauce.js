@@ -56,7 +56,7 @@ exports.deleteSauce = (req, res, next) => {
 };
 exports.likeSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
-    .then(sauce => {
+    .then(Sauce => {
         switch(req.body.like) {
             case +1:
                 Sauce.updateOne({_id: req.params.id}, {$push: {userLiked: req.body.userId}, $inc: {like: +1}})

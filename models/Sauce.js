@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Data schema that contains the desired fields for each sauce
 const sauceShema = mongoose.Schema({
     userId: { type: String, required: true },
     name: { type: String, required: true },

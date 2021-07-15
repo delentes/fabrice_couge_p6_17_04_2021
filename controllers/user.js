@@ -4,7 +4,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const MaskData = require('maskdata');
 
-//exports to routes user
+// User creation middleware
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
@@ -19,6 +19,7 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
+// Middleware user login
 exports.login = (req, res, next) => {
     User.findOne({email: MaskData.maskEmail2(req.body.email)})
         .then(user => {

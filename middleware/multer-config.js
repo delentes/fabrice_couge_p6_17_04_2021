@@ -2,10 +2,11 @@ const multer = require('multer');
 
 const MINE_TYPES = {
     'image/jpeg': 'jpg',
-    'image/jpeg': 'jpg',
+    'image/jpg': 'jpg',
     'image/png': 'png'
 };
 
+// File management middleware
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, 'images')

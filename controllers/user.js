@@ -3,20 +3,36 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const MaskData = require('maskdata');
+const passwordValidator = require('password-validator');
+
+const shemaPassValid = new passwordValidator();
+
+shemaPassValid
+.is().min(8)
+.is().max(50)
+.has().uppercase()
+.has().lowercase()
+.has().digits(1)
+.has().not().spaces()
+.is().not().oneOf(['Passw0rd', 'Password123']);
 
 // User creation middleware
 exports.signup = (req, res, next) => {
+    if (!shemaPassValid.validate(req.body.password)) {
+        res.status(401).json({message:"Le mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre pour un minimum de 8 caractères"});
+    } else {
     bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            const user = new User({
-                email: MaskData.maskEmail2(req.body.email),
-                password: hash
-            });
-        user.save()
-            .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-            .catch(error => res.status(400).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }));
+    .then(hash => {
+        const user = new User({
+            email: MaskData.maskEmail2(req.body.email),
+            password: hash
+        });
+    user.save()
+        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+        .catch(error => res.status(400).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }));
+    }
 };
 
 // Middleware user login
